@@ -75,24 +75,6 @@ public class SpringSecurityApplication {
             lessonService.addLesson(ls);
 
 
-
-            /*TodoList td = new TodoList();
-            td.setUser(userService.getUser("rdurgut"));
-            td.setTitle("Test title");
-            todoListService.addTodoList(td);
-
-
-            Task task = new Task("Test Task","Test description",null);
-            task.setTodoList(todoListService.getTodoList(td.getId()));
-            task.setUser(userService.getUser("rdurgut"));
-            taskService.addTask(task);
-
-            Comment comment = new Comment();
-            comment.setComment("Test comment");
-            comment.setUser(userService.getUser("rdurgut"));
-            taskService.addComment(comment, task.getId());*/
-
-
         };
     }
 }
