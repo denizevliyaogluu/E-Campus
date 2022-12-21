@@ -19,17 +19,20 @@ public class InstituteController {
 
         this.instituteService = instituteService;
     }
-
+    
+    @Secured("ROLE_SISTEMYONETICISI")
     @GetMapping()
     public ResponseEntity<?> getAllInstitutes(){
         return ResponseEntity.ok(instituteService.getAll());
     }
-
+    
+    @Secured("ROLE_SISTEMYONETICISI")
     @GetMapping("/{id}")
     public List<Institute> GetInstituteByUserID(@PathVariable Long id)
     {
         return instituteService.getInstituteByUserId(id);
     }
+    @Secured("ROLE_SISTEMYONETICISI")
     @PostMapping
     public ResponseEntity<Institute> addInstitutes(@RequestBody Institute institute){
         instituteService.addInstitute(institute);
