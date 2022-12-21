@@ -17,7 +17,7 @@ public class InstituteService {
     public Institute addInstitute(Institute institute){
         return instituteRepository.save(institute);
     }
-    public Institute getInstitute(Long id){
+    public Institute getInstituteById(Long id){
         return instituteRepository.findById(id).get();
     }
     public List<Institute> getInstituteByUserId(Long id){
