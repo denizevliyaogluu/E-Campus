@@ -27,7 +27,7 @@ public class SpringSecurityApplication {
 
     @Bean
     CommandLineRunner run(UserService userService, DepartmentService departmentService, InstituteService instituteService,
-                          FacultyService facultyService, LessonService lessonService)
+                          FacultyService facultyService, LessonService lessonService, StudentService studentService)
     {
         return args->
         {
@@ -44,7 +44,6 @@ public class SpringSecurityApplication {
             userService.saveUser(new User(null,"aleyna","asevimli","12345",new ArrayList<>()));
             userService.saveUser(new User(null,"sena","spaydas","12345",new ArrayList<>()));
             userService.saveUser(new User(null,"sila","syurt","12345",new ArrayList<>()));
-
 
             userService.addRoleToUser("devliyaoglu","ROLE_OGRENCIISLERI");
             userService.addRoleToUser("eatesalp","ROLE_INSANKAYNAKLARI");
@@ -64,15 +63,23 @@ public class SpringSecurityApplication {
             fc.setFacultyName("Mühendislik ve Doğa Bilimleri Fakültesi");
             facultyService.addFaculty(fc);
 
+
             Department dp = new Department();
             dp.setUser(userService.getUser("yagmur"));
             dp.setDepartmentName("Bilgisayar Mühendisliği");
             departmentService.addDepartment(dp);
+            facultyService.addDepartmentByFacultyId(dp,fc.getId());
+
 
             Lesson ls = new Lesson();
             ls.setUser(userService.getUser("aleyna"));
             ls.setLessonName("Sunucu Taraflı Programlama");
             lessonService.addLesson(ls);
+            departmentService.addLessonByDepartmentId(ls,dp.getId());
+
+            Student st = new Student();
+            st.setUsername("Deniz Evliyaoglu");
+            lessonService.addStudentByLessonId(st,ls.getId());
 
 
         };
