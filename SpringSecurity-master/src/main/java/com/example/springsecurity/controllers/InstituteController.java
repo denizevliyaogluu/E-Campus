@@ -1,10 +1,12 @@
 package com.example.springsecurity.controllers;
 
+import com.example.springsecurity.models.Department;
 import com.example.springsecurity.models.Faculty;
 import com.example.springsecurity.models.Institute;
 import com.example.springsecurity.services.InstituteService;
 import com.example.springsecurity.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,26 +21,35 @@ public class InstituteController {
 
         this.instituteService = instituteService;
     }
-    
     @Secured("ROLE_SISTEMYONETICISI")
     @GetMapping()
     public ResponseEntity<?> getAllInstitutes(){
         return ResponseEntity.ok(instituteService.getAll());
     }
-    
-    @Secured("ROLE_SISTEMYONETICISI")
-    @GetMapping("/{id}")
+
+
+    /*@GetMapping("/{id}")
     public List<Institute> GetInstituteByUserID(@PathVariable Long id)
     {
         return instituteService.getInstituteByUserId(id);
-    }
+    }*/
+
     @Secured("ROLE_SISTEMYONETICISI")
     @PostMapping
     public ResponseEntity<Institute> addInstitutes(@RequestBody Institute institute){
         instituteService.addInstitute(institute);
         return ResponseEntity.ok(institute);
     }
+    @Secured("ROLE_SISTEMYONETICISI")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteInstitute(@PathVariable(value = "id")Long id){
+        instituteService.deleteInstitute(id);
+        return ResponseEntity.noContent().build();
+    }
 
-
+   /* @GetMapping("/{id}")
+    public List<Institute> getInstituteById(@PathVariable Long id){
+        return (List<Institute>) instituteService.getInstituteById(id);
+    }*/
 
 }
