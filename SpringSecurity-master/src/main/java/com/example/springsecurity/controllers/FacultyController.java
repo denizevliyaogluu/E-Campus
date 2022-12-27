@@ -20,26 +20,36 @@ public class FacultyController {
         this.facultyService=facultyService;
         this.departmentService=departmentService;
     }
-    
+
+
     @Secured("ROLE_SISTEMYONETICISI")
     @GetMapping()
     public ResponseEntity<?> getAllFaculty(){
         return ResponseEntity.ok(facultyService.getAllFaculty());
     }
 
-   
-   @Secured("ROLE_SISTEMYONETICISI")
-   @PostMapping
+    @Secured("ROLE_SISTEMYONETICISI")
+    @PostMapping()
    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty faculty){
         facultyService.addFaculty(faculty);
         return ResponseEntity.ok(faculty);
    }
-   @Secured("ROLE_SISTEMYONETICISI")
-   @GetMapping("/{id}")
+    @Secured("ROLE_SISTEMYONETICISI")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getDepartmentsByFacultyId(@PathVariable Long id){
         return ResponseEntity.ok(facultyService.getDepartmentsByFacultyId(id));
    }
+    @Secured("ROLE_SISTEMYONETICISI")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteFaculty(@PathVariable(value = "id")Long id){
+        facultyService.deleteFaculty(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    /*@GetMapping("/{id}")
+    public List<Faculty> getFacultyByInstituteId(@PathVariable Long id){
+        return facultyService.getFacultyByInstituteId(id);
+    }*/
 
 
 }
