@@ -27,7 +27,9 @@ public class InstituteService {
         return instituteRepository.findAll();
     }
 
-
+    public void deleteInstitute(Long id) {
+        instituteRepository.deleteById(id);
+    }
 
 
 }
