@@ -37,15 +37,21 @@ public class LessonService {
     public void addLesson(Lesson lesson){
         lessonRepository.save(lesson);
     }
-    public List<Lesson> getLessonByDepartment(Long departmentId){
+    public List<Lesson> getLessonByDepartmentId(Long departmentId){
         return lessonRepository.findAllByDepartmentId(departmentId);
+
     }
-    public void addStudent(Student student, Long lessonId){
+    /*public List<Lesson> getLessonByStudentId(Long studentId){
+        return lessonRepository.findAllByStudentId(studentId);
+    }*/
+    public void addStudentByLessonId(Student student, Long lessonId){
         student.setLesson(lessonRepository.findById(lessonId).get());
         //lessonRepository.save(student);
     }
-    public Collection<Student> getStudentsByLessonId(Long lessonId){
-        return lessonRepository.findById(lessonId).get().getStudents();
+
+    public void deleteLesson(Long id) {
+        lessonRepository.deleteById(id);
     }
 
 }
+
