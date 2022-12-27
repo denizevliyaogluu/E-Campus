@@ -30,15 +30,18 @@ public class FacultyService {
     public void addFaculty(Faculty faculty){
         facultyRepository.save(faculty);
     }
-    public List<Faculty> getFacultyByInstitute(Long instituteId){
+    public List<Faculty> getFacultyByInstituteId(Long instituteId){
         return facultyRepository.findAllByInstituteId(instituteId);
     }
-    public void addDepartment(Department department, Long facultyId){
+    public void addDepartmentByFacultyId(Department department, Long facultyId){
         department.setFaculty(facultyRepository.findById(facultyId).get());
         departmentRepository.save(department);
     }
     public Collection<Department> getDepartmentsByFacultyId(Long facultyId){
         return facultyRepository.findById(facultyId).get().getDepartments();
     }
-
+    public void deleteFaculty(Long id){
+        facultyRepository.deleteById(id);
+    }
 }
+
