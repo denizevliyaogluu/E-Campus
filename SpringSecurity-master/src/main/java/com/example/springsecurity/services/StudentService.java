@@ -21,12 +21,16 @@ public class StudentService {
     public void addStudent(Student student){
         studentRepository.save(student);
     }
-    public List<Student> getStudentByLesson(Long lessonId){
+    public List<Student> getStudentByLessonId(Long lessonId){
         return studentRepository.findAllByLessonId(lessonId);
     }
 
-    public List<Student> getAll(){
+    public List<Student> getAllStudents(){
         return studentRepository.findAll();
     }
 
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
 }
+
