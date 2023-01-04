@@ -1,55 +1,52 @@
 package com.example.springsecurity.controllers;
-
-
-//ogrenci isleri: ogrenci kaydı, ogrenci bilgi goruntuleme
-
+import com.example.springsecurity.models.Department;
+import com.example.springsecurity.models.Faculty;
 import com.example.springsecurity.models.Lesson;
 import com.example.springsecurity.models.Student;
-import com.example.springsecurity.models.User;
-import com.example.springsecurity.services.StudentService;
-import com.example.springsecurity.services.UserService;
+import com.example.springsecurity.services.LessonService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.Collection;
-import java.util.List;
-
 @RestController
-@RequestMapping("students")
-
-public class StudentController {
-
-    public final StudentService studentService;
-
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+@RequestMapping("lesson")
+public class LessonController {
+    public final LessonService lessonService;
+    public LessonController(LessonService lessonService){
+        this.lessonService=lessonService;
     }
-    //ogrenci listesi
-    @Secured("ROLE_OGRENCIISLERI")
+
+    //@Secured({"ROLE_OGRENCIISLERI","ROLE_OGRENCI"})
     @GetMapping()
-    public List<Student> getAllStudents(){
-        return studentService.getAllStudents();
+    public ResponseEntity<?> getAllLessons(){
+        return ResponseEntity.ok(lessonService.getAllLessons());
     }
-
+    //@Secured({"ROLE_OGRENCIISLERI","ROLE_FAKULTEYONETIMI","ROLE_ENSTITUYONETIMI"})
+    @PostMapping()
+    public Lesson addLesson(@RequestBody Lesson lesson){
+        return lessonService.addLesson(lesson);
+    }
+    //@Secured({"ROLE_OGRENCIISLERI","ROLE_OGRENCI"})
+    @GetMapping("/{lessonId}")
+    public Lesson getLessonById(@PathVariable Long lessonId){
+        return lessonService.getLessonById(lessonId);
+    }
+    //@Secured("ROLE_OGRENCIISLERI")
+    @PostMapping("/department/{id}")
+    @ResponseBody
+    public ResponseEntity<Lesson> addLessonByDepartmentId(@PathVariable Long id, @RequestBody Lesson lesson){
+        return new ResponseEntity<>(lessonService.addLessonByDepartmentId(id,lesson),
+                HttpStatus.CREATED);
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteStudent(@PathVariable(value = "id")Long id){
-        studentService.deleteStudent(id);
+    public ResponseEntity<Object> deleteLesson(@PathVariable(value = "id")Long id){
+        lessonService.deleteLesson(id);
         return ResponseEntity.noContent().build();
     }
-
-    @Secured("ROLE_OGRENCIISLERI")
-    @PostMapping()
-    public ResponseEntity<Student> addStudent(@RequestBody Student student){
-        studentService.addStudent(student);
-        return ResponseEntity.ok(student);
-    }
-    @Secured("ROLE_OGRENCIISLERI")
-    @GetMapping("/{id}")
-    public List<Student> getStudentByLessonId(@PathVariable Long id){
-        return studentService.getStudentByLessonId(id);
+    //@Secured("ROLE_OGRENCI")
+    @PutMapping()
+    public Lesson updateLesson(@RequestBody Lesson lesson){
+        lessonService.saveOrUpdate(lesson);
+        return lesson;
     }
 }
