@@ -1,55 +1,60 @@
 package com.example.springsecurity.controllers;
 
-import com.example.springsecurity.models.Department;
 import com.example.springsecurity.models.Faculty;
+import com.example.springsecurity.models.Personnel;
 import com.example.springsecurity.services.DepartmentService;
 import com.example.springsecurity.services.FacultyService;
+import com.example.springsecurity.services.PersonnelService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("faculty")
 public class FacultyController {
     public final FacultyService facultyService;
     public final DepartmentService departmentService;
+    private final PersonnelService personnelService;
 
-    public FacultyController(FacultyService facultyService, DepartmentService departmentService){
+    public FacultyController(FacultyService facultyService, DepartmentService departmentService, PersonnelService personnelService){
         this.facultyService=facultyService;
         this.departmentService=departmentService;
+        this.personnelService = personnelService;
     }
 
 
-    @Secured("ROLE_SISTEMYONETICISI")
+    //@Secured("ROLE_SISTEMYONETICISI")
     @GetMapping()
     public ResponseEntity<?> getAllFaculty(){
         return ResponseEntity.ok(facultyService.getAllFaculty());
     }
 
-    @Secured("ROLE_SISTEMYONETICISI")
+    //@Secured("ROLE_SISTEMYONETICISI")
     @PostMapping()
-   public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty faculty){
+    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty faculty){
         facultyService.addFaculty(faculty);
         return ResponseEntity.ok(faculty);
    }
-    @Secured("ROLE_SISTEMYONETICISI")
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getDepartmentsByFacultyId(@PathVariable Long id){
-        return ResponseEntity.ok(facultyService.getDepartmentsByFacultyId(id));
-   }
-    @Secured("ROLE_SISTEMYONETICISI")
+    //@Secured("ROLE_SISTEMYONETICISI")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteFaculty(@PathVariable(value = "id")Long id){
         facultyService.deleteFaculty(id);
         return ResponseEntity.noContent().build();
     }
+    //@Secured("ROLE_SISTEMYONETICISI")
+    @GetMapping("/{facultyId}")
+    public Faculty getFacultyById(@PathVariable Long facultyId){
+        return facultyService.getFacultyById(facultyId);
+    }
 
-    /*@GetMapping("/{id}")
-    public List<Faculty> getFacultyByInstituteId(@PathVariable Long id){
-        return facultyService.getFacultyByInstituteId(id);
-    }*/
+    //Secured("ROLE_SISTEMYONETICISI")
+    @PostMapping("/institute/{id}")
+    @ResponseBody
+    public ResponseEntity<Faculty> addFacultyByInstituteId(@PathVariable Long id, @RequestBody Faculty faculty){
+        return new ResponseEntity<>(facultyService.addFacultyByInstituteId(id,faculty),
+                HttpStatus.CREATED);
+    }
+
 
 
 }
