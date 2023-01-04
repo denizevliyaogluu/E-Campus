@@ -26,12 +26,13 @@ public class Department {
     @JsonIgnore
     @ManyToOne
     private User user;
-    @JsonIgnore
-    @OneToMany(mappedBy = "department")
-    private Collection<Lesson> lessons = new ArrayList<>();
 
     @JsonIgnore
     @ManyToOne
     private Faculty faculty;
+
+    @JsonIgnore
+    @ManyToOne
+    private Lesson lesson;
 
 }
