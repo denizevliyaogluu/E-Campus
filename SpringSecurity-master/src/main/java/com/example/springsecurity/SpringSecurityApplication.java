@@ -2,6 +2,7 @@ package com.example.springsecurity;
 
 import com.example.springsecurity.models.*;
 import com.example.springsecurity.services.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +28,9 @@ public class SpringSecurityApplication {
 
     @Bean
     CommandLineRunner run(UserService userService, DepartmentService departmentService, InstituteService instituteService,
-                          FacultyService facultyService, LessonService lessonService, StudentService studentService)
+                          FacultyService facultyService, LessonService lessonService, StudentService studentService,
+                          ContractService contractService, PersonnelService personnelService
+                         )
     {
         return args->
         {
@@ -37,6 +40,8 @@ public class SpringSecurityApplication {
             userService.saveRole(new UserRole(null,"ROLE_SISTEMYONETICISI"));
             userService.saveRole(new UserRole(null,"ROLE_FAKULTEYONETIMI"));
             userService.saveRole(new UserRole(null,"ROLE_ENSTITUYONETIMI"));
+
+
 
             userService.saveUser(new User(null,"deniz","devliyaoglu","12345",new ArrayList<>()));
             userService.saveUser(new User(null,"elif","eatesalp","12345",new ArrayList<>()));
@@ -54,25 +59,19 @@ public class SpringSecurityApplication {
 
 
             Institute in = new Institute();
-            in.setUser(userService.getUser("deniz"));
             in.setInstituteName("Bilgisayar Bilimleri");
             instituteService.addInstitute(in);
 
             Faculty fc = new Faculty();
-            fc.setUser(userService.getUser("elif"));
             fc.setFacultyName("Mühendislik ve Doğa Bilimleri Fakültesi");
             facultyService.addFaculty(fc);
 
-
             Department dp = new Department();
-            dp.setUser(userService.getUser("yagmur"));
             dp.setDepartmentName("Bilgisayar Mühendisliği");
             departmentService.addDepartment(dp);
             facultyService.addDepartmentByFacultyId(dp,fc.getId());
 
-
             Lesson ls = new Lesson();
-            ls.setUser(userService.getUser("aleyna"));
             ls.setLessonName("Sunucu Taraflı Programlama");
             lessonService.addLesson(ls);
             departmentService.addLessonByDepartmentId(ls,dp.getId());
@@ -81,6 +80,14 @@ public class SpringSecurityApplication {
             st.setUsername("Deniz Evliyaoglu");
             lessonService.addStudentByLessonId(st,ls.getId());
 
+            Contract ct = new Contract();
+            ct.setContractName("Contract1");
+            contractService.addContract(ct);
+
+            Personnel pr = new Personnel();
+            pr.setPersonnelType("Öğretmen");
+            pr.setContract(ct);
+            personnelService.addPersonnel(pr);
 
         };
     }
