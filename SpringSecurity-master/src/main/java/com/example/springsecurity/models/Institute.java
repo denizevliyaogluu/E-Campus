@@ -9,6 +9,7 @@ import net.minidev.json.annotate.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,9 +26,17 @@ public class Institute {
     @ManyToOne
     private User user;
 
-    @JsonIgnore
+   /* @JsonIgnore
     @OneToMany(mappedBy = "institute")
-    private Collection<Faculty> faculties = new ArrayList<>();
+    private List<Faculty> facultyList = new ArrayList<>();*/
+
+    @JsonIgnore
+    @ManyToOne
+    private Faculty faculty;
+
+    @JsonIgnore
+    @ManyToOne
+    private Student student;
 
 
 }
