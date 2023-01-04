@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 @Data
 @Entity
@@ -17,7 +16,7 @@ import java.util.Collection;
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id",nullable = false)
+    //@Column(name="id",nullable = false)
     private Long id;
 
     private String facultyName;
@@ -25,9 +24,16 @@ public class Faculty {
     @JsonIgnore
     @ManyToOne
     private User user;
+
     @JsonIgnore
+    @OneToMany
+    private List<Personnel> personnels = new ArrayList<>();
+
+    /*@OneToMany(mappedBy = "faculty")
+    private List<Department> departmentList=new ArrayList<>();
+   /* @JsonIgnore
     @OneToMany(mappedBy = "faculty")
-    private Collection<Department> departments = new ArrayList<>();
+    private List<Department> departments = new ArrayList<>();*/
 
     @JsonIgnore
     @ManyToOne
