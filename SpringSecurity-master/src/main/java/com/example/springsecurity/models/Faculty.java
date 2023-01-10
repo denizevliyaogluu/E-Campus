@@ -22,8 +22,9 @@ public class Faculty {
     private String facultyName;
 
     @JsonIgnore
-    @ManyToOne
-    private User user;
+    //@ManyToOne
+    @OneToMany(mappedBy="faculty")
+    private List<User> user=new ArrayList<>() ;
 
     @JsonIgnore
     @OneToMany
