@@ -16,11 +16,15 @@ public class Personnel extends User{
     private Contract contract;
 
     @JsonIgnore
-    @ManyToOne
-    private Faculty faculty;
+   // @ManyToMany
+   // private Faculty faculty;
+   @OneToMany(mappedBy="personnel")
+    private List<Faculty> faculty=new ArrayList<>() ;
 
     @JsonIgnore
-    @ManyToOne
-    private Department department;
+    //@ManyToMany
+    //private Department department;
+    @OneToMany(mappedBy="personnel")
+    private List<Department> department=new ArrayList<>() ;
 
 }
