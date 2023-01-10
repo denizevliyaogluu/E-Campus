@@ -28,8 +28,8 @@ public class Lesson {
 
     @JsonIgnore
     // @ManyToOne
-    @ManyToMany
-    private User user;
+    @OneToMany(mappedBy="lesson")
+    private List<User> user=new ArrayList<>() ;
 
     private LessonStatus status;
 
