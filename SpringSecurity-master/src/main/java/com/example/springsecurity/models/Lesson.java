@@ -27,7 +27,8 @@ public class Lesson {
     private String lessonName;
 
     @JsonIgnore
-    @ManyToOne
+    // @ManyToOne
+    @ManyToMany
     private User user;
 
     private LessonStatus status;
@@ -38,7 +39,7 @@ public class Lesson {
     private Department department;
 
     @JsonIgnore
-    @OneToMany
+    @ManyToMany
     private List<Student> students = new ArrayList<>();
 
     public Lesson(String lessonName, LessonStatus status) {
