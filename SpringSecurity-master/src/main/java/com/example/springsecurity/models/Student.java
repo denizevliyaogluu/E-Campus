@@ -13,7 +13,9 @@ public class Student extends User{
     private StudentStatus status;
 
     @JsonIgnore
-    @ManyToOne
-    private Lesson lesson;
+    //@ManyToMany
+    //private Lesson lesson;
+    @OneToMany(mappedBy="lesson")
+    private List<Lesson> lesson=new ArrayList<>() ;
 
 }
