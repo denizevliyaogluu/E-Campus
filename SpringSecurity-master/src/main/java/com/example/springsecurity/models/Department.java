@@ -24,15 +24,16 @@ public class Department {
     private String departmentName;
 
     @JsonIgnore
-    @ManyToOne
-    private User user;
+    //@ManyToOne
+      @OneToMany(mappedBy="department")
+    private List<User> user=new ArrayList<>() ;
 
     @JsonIgnore
     @ManyToOne
     private Faculty faculty;
 
     @JsonIgnore
-    @ManyToOne
-    private Lesson lesson;
+    @OneToMany(mappedBy="department")
+    private List<Lesson> lesson=new ArrayList<>() ;
 
 }
